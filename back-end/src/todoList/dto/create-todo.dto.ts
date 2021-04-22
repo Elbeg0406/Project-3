@@ -1,3 +1,4 @@
 export class CreateToDoDto {
-    item: string;
-  }
+  item: string;
+  date_only: string;
+}

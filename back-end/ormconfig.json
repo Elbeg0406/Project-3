@@ -1,0 +1,11 @@
+{
+  "type": "mysql",
+  "host": "localhost",
+  "port": 3306,
+  "username": "root",
+  "password": "Ab99175185",
+  "database": "todo_list",
+  "autoLoadEntities": true,
+  "entities": ["dist/**/*.entity{.ts,.js}"],
+  "synchronize": true
+}
