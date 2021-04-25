@@ -47,7 +47,7 @@ const AddListModal = (props: Props) => {
   };
 
   const [item, setItem] = useState("");
-  const date_only = values.today;
+  const [date_only, setDate] = useState("");
   const [password, setPassword] = useState("");
   const addItem = async () => {
     const respPass = await ToDoAPI.findUser(1);
@@ -68,12 +68,11 @@ const AddListModal = (props: Props) => {
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <TextField
-        id="standard-read-only-input"
-        label="Огноо"
+        id="date"
+        label="Date"
+        type="date"
         defaultValue={values.today}
-        InputProps={{
-          readOnly: true,
-        }}
+        onChange={(e) => setDate(e.target.value)}
       />
       <TextField
         placeholder="New ToDo"
@@ -82,7 +81,7 @@ const AddListModal = (props: Props) => {
       />
       <TextField
         id="standard-password-input"
-        label="Нууц үг"
+        label="Password"
         type="password"
         autoComplete="current-password"
         onChange={(e) => setPassword(e.target.value)}

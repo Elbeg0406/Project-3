@@ -52,22 +52,23 @@ const UserModal = (props: Props) => {
 
       props.onUserCreated(resp);
     } else {
-      console.log("Wrond password");
     }
   };
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <TextField
-        id="standard-password-input"
-        label="Нууц үг"
+        id="standard-password-input-adornment"
+        label="Password"
         type="password"
         autoComplete="current-password"
+        error={pass === ""}
+        helperText={pass === "" ? "Empty!" : " "}
         onChange={(e) => setPass(e.target.value)}
       />
       <TextField
-        id="standard-password-input"
-        label="Нууц үг баталгаажуулах"
+        id="standard-password-input-error cpass"
+        label="Confirm password"
         type="password"
         autoComplete="current-password"
         onChange={(e) => setPassConfirm(e.target.value)}
@@ -78,7 +79,7 @@ const UserModal = (props: Props) => {
         className={classes.addBtn}
         onClick={addUser}
       >
-        Хадгалах
+        Save
       </Button>
     </div>
   );
