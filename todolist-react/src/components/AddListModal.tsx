@@ -60,8 +60,6 @@ const AddListModal = (props: Props) => {
       });
 
       props.onToDoCreated(resp);
-    } else {
-      console.log("Password wrong");
     }
   };
 
@@ -84,6 +82,7 @@ const AddListModal = (props: Props) => {
         label="Password"
         type="password"
         autoComplete="current-password"
+        helperText={password === "1234" ? " " : "Wrong Password"}
         onChange={(e) => setPassword(e.target.value)}
       />
       <Button

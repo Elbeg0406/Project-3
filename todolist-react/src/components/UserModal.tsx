@@ -44,6 +44,7 @@ const UserModal = (props: Props) => {
 
   const [pass, setPass] = useState("");
   const [passConfirm, setPassConfirm] = useState("");
+
   const addUser = async () => {
     if (pass === passConfirm) {
       const resp = await ToDoAPI.addUser({
@@ -51,7 +52,6 @@ const UserModal = (props: Props) => {
       });
 
       props.onUserCreated(resp);
-    } else {
     }
   };
 
@@ -71,6 +71,7 @@ const UserModal = (props: Props) => {
         label="Confirm password"
         type="password"
         autoComplete="current-password"
+        helperText={pass === passConfirm ? " " : "Wrong Password"}
         onChange={(e) => setPassConfirm(e.target.value)}
       />
       <Button
