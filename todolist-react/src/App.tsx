@@ -6,24 +6,16 @@ import { Grid, AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import List from "./components/list";
 import AddListModal from "./components/AddListModal";
 import EditListModal from "./components/EditListModal";
-import UserModal from "./components/UserModal";
-import { UserDto } from "./api/dto/user.dto";
 
 function App() {
   const [todos, setToDos] = useState<ToDoDto[]>([]);
   const [addListModalOpen, setAddListModalOpen] = useState(false);
   const [updateListModalOpen, setUpdateListModalOpen] = useState(false);
-  const [users, setUsers] = useState<UserDto[]>([]);
-  const [addUserModalOpen, setUserModalOpen] = useState(false);
   const [listBeingEdited, setListBeingEdited] = useState<undefined | ToDoDto>(
     undefined
   );
   const addToDo = (todo: ToDoDto) => {
     setToDos([...todos, todo]);
-  };
-
-  const addUser = (user: UserDto) => {
-    setUsers([...users, user]);
   };
 
   const removeToDo = (id: number) => {
@@ -54,11 +46,6 @@ function App() {
         handleClose={() => setAddListModalOpen(false)}
         onToDoCreated={addToDo}
       />
-      <UserModal
-        open={addUserModalOpen}
-        handleClose={() => setUserModalOpen(false)}
-        onUserCreated={addUser}
-      />
       <EditListModal
         data={listBeingEdited}
         open={updateListModalOpen}
@@ -76,13 +63,6 @@ function App() {
             onClick={() => setAddListModalOpen(true)}
           >
             Add List
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setUserModalOpen(true)}
-          >
-            User
           </Button>
         </Toolbar>
       </AppBar>

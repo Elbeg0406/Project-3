@@ -50,17 +50,13 @@ const AddListModal = (props: Props) => {
   const [date_only, setDate] = useState("");
   const [password, setPassword] = useState("");
   const addItem = async () => {
-    const respPass = await ToDoAPI.findUser(1);
-    console.log(respPass);
+    const resp = await ToDoAPI.addOne({
+      item,
+      date_only,
+      password,
+    });
 
-    if (password === "1234") {
-      const resp = await ToDoAPI.addOne({
-        item,
-        date_only,
-      });
-
-      props.onToDoCreated(resp);
-    }
+    props.onToDoCreated(resp);
   };
 
   const body = (
@@ -82,7 +78,6 @@ const AddListModal = (props: Props) => {
         label="Password"
         type="password"
         autoComplete="current-password"
-        helperText={password === "1234" ? " " : "Wrong Password"}
         onChange={(e) => setPassword(e.target.value)}
       />
       <Button

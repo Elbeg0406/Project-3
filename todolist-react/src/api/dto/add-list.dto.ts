@@ -1,4 +1,5 @@
 export interface AddToDoDto {
   item?: string;
-  date_only?: string;
+  date_only: string;
+  password: string;
 }

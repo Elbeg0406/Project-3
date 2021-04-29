@@ -9,14 +9,8 @@ export class ToDo {
   item: string;
 
   @Column({ type: 'date' })
-  date_only: string;
-}
-
-@Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  date: Date;
 
   @Column({ length: 20 })
-  pass: string;
+  password: string;
 }
