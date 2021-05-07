@@ -1,22 +1,66 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateToDoDto } from './dto/create-todo.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { LoginUserDto } from './dto/login-user.dto';
 import { ToDoDto } from './dto/todo.dto';
 import { UpdateToDoDto } from './dto/update-todo.dto';
-import { ToDo } from './todo.entity';
+import { UserDto } from './dto/user.dto';
+import { ToDo, LoginUser } from './todo.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class ToDoService {
   constructor(
     @InjectRepository(ToDo)
     private todoRepository: Repository<ToDo>,
+
+    @InjectRepository(LoginUser)
+    private userRepository: Repository<LoginUser>,
   ) {}
 
+  // User
+  public async create(createUserDto: CreateUserDto): Promise<LoginUser> {
+    const user = new LoginUser();
+    user.username = createUserDto.username;
+    user.password = createUserDto.password;
+
+    await this.userRepository.save(user);
+
+    const userDto = this.UserEntityToDto(user);
+
+    return userDto;
+  }
+
+  private UserEntityToDto(user): UserDto {
+    const userDto = new UserDto();
+    userDto.id = user.id;
+    userDto.username = user.username;
+    userDto.password = user.password;
+
+    return userDto;
+  }
+
+  public async findUser({
+    username,
+    password,
+  }: LoginUserDto): Promise<LoginUser> | undefined {
+    const user = await this.userRepository.findOne({ username });
+
+    if (!user) {
+      return null;
+    }
+
+    if (await bcrypt.compare(password, user.password)) {
+      const userDto = this.UserEntityToDto(user);
+      return userDto;
+    }
+
+    return null;
+  }
+
+  // ToDo
   public async createOne(createToDoDto: CreateToDoDto): Promise<ToDo> {
     const todo = new ToDo();
     todo.item = createToDoDto.item;

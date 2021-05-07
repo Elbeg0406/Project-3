@@ -14,3 +14,15 @@ export class ToDo {
   @Column({ length: 20 })
   password: string;
 }
+
+@Entity()
+export class LoginUser {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ length: 20 })
+  username: string;
+
+  @Column({ length: 60 })
+  password: string;
+}

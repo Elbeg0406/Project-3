@@ -2,10 +2,14 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ToDoService } from './todo.service';
 import { ToDoController } from './todo.controller';
-import { ToDo } from './todo.entity';
+import { LoginUser, ToDo } from './todo.entity';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ToDo])],
+  imports: [
+    TypeOrmModule.forFeature([ToDo, LoginUser]),
+    JwtModule.register({ secret: 'secret', signOptions: { expiresIn: '1d' } }),
+  ],
   exports: [TypeOrmModule],
   providers: [ToDoService],
   controllers: [ToDoController],

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, Options } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ToDoModule } from './todoList/todo.module';
 
