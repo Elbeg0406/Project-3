@@ -43,21 +43,19 @@ export class ToDoService {
   }
 
   public async findUser({
+    id,
     username,
-    password,
   }: LoginUserDto): Promise<LoginUser> | undefined {
-    const user = await this.userRepository.findOne({ username });
-
-    if (!user) {
-      return null;
-    }
-
-    if (await bcrypt.compare(password, user.password)) {
+    if (!id) {
+      const user = await this.userRepository.findOne({ username });
+      if (!user) return null;
       const userDto = this.UserEntityToDto(user);
       return userDto;
     }
-
-    return null;
+    const user = await this.userRepository.findOne({ id });
+    if (!id) return null;
+    const userDto = this.UserEntityToDto(user);
+    return userDto;
   }
 
   // ToDo

@@ -13,15 +13,16 @@ import {
   ParseIntPipe,
   Res,
   Req,
+  UnauthorizedException,
 } from '@nestjs/common';
-import { Response, Request } from 'express';
 import { ToDoService } from './todo.service';
 import { CreateToDoDto } from './dto/create-todo.dto';
 import { UpdateToDoDto } from './dto/update-todo.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
 import { JwtService } from '@nestjs/jwt';
+import { Response, Request } from 'express';
+import * as bcrypt from 'bcrypt';
 
 @Controller('todo')
 export class ToDoController {
@@ -75,35 +76,54 @@ export class ToDoController {
       createUserRequest.password,
       saltOrRounds,
     );
+    const user = await this.todoService.create(createUserRequest);
 
-    const resp = await this.todoService.create(createUserRequest);
-    return resp;
-  }
+    const { password, ...result } = user;
 
-  @Get('/user')
-  public async user(@Req() request: Request) {
-    const cookie = request.cookies['jwt'];
-
-    const data = await this.jwtService.verifyAsync(cookie);
-    return data;
+    return result;
   }
 
   @Post('/login')
-  public async findUser(
+  public async login(
     @Body() loginUserDto: LoginUserDto,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const resp = await this.todoService.findUser(loginUserDto);
-    if (resp !== null) {
-      const payload = { id: resp.id };
-      const jwt = await this.jwtService.signAsync(payload);
+    const user = this.todoService.findUser(loginUserDto);
 
-      const name = 'jwt';
-      response.cookie(name, jwt, { httpOnly: true });
-      return {
-        message: 'success',
-      };
+    if (!user) {
+      return { message: 'User not found' };
     }
-    return null;
+
+    if (await bcrypt.compare(loginUserDto.password, (await user).password)) {
+      const jwt = await this.jwtService.signAsync({ id: (await user).id });
+
+      response.cookie('jwt', jwt, { httpOnly: true });
+      return { message: 'Log In' };
+    }
+    return { message: 'Password invalid' };
+  }
+
+  @Get('/login/user')
+  public async user(@Req() request: Request) {
+    try {
+      const cookie = request.cookies['jwt'];
+      const data: LoginUserDto = await this.jwtService.verifyAsync(cookie);
+
+      if (!data) throw new UnauthorizedException();
+
+      const user = await this.todoService.findUser(data);
+
+      const { password, ...result } = user;
+
+      return result;
+    } catch (e) {
+      throw new UnauthorizedException();
+    }
+  }
+
+  @Post('/logout')
+  public async logout(@Res({ passthrough: true }) response: Response) {
+    response.clearCookie('jwt');
+    return { message: 'Log Out' };
   }
 }

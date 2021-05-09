@@ -8,9 +8,12 @@ import { JwtModule } from '@nestjs/jwt';
 @Module({
   imports: [
     TypeOrmModule.forFeature([ToDo, LoginUser]),
-    JwtModule.register({ secret: 'secret', signOptions: { expiresIn: '1d' } }),
+    JwtModule.register({
+      secret: 'secret',
+      signOptions: { expiresIn: '1d' },
+    }),
   ],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, ToDoService],
   providers: [ToDoService],
   controllers: [ToDoController],
 })
