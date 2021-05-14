@@ -6,10 +6,14 @@ import { Grid, AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import List from "./components/list";
 import AddListModal from "./components/AddListModal";
 import EditListModal from "./components/EditListModal";
+import SignUpModal from "./components/signUp";
+import SignInModal from "./components/signIn";
 
 function App() {
   const [todos, setToDos] = useState<ToDoDto[]>([]);
   const [addListModalOpen, setAddListModalOpen] = useState(false);
+  const [addUserModalOpen, setUserModalOpen] = useState(false);
+  const [logInModalOpen, setlogInModalOpen] = useState(false);
   const [updateListModalOpen, setUpdateListModalOpen] = useState(false);
   const [listBeingEdited, setListBeingEdited] = useState<undefined | ToDoDto>(
     undefined
@@ -52,6 +56,14 @@ function App() {
         handleClose={() => setUpdateListModalOpen(false)}
         onListUpdated={updateToDo}
       />
+      <SignUpModal
+        open={addUserModalOpen}
+        onSubmit={() => setUserModalOpen(false)}
+      />
+      <SignInModal
+        open={logInModalOpen}
+        onSubmit={() => setlogInModalOpen(false)}
+      />
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h5" style={{ flexGrow: 1 }}>
@@ -64,10 +76,32 @@ function App() {
           >
             Add List
           </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setUserModalOpen(true)}
+          >
+            Sign Up
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setlogInModalOpen(true)}
+          >
+            Sign In
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setlogInModalOpen(true)}
+          >
+            Log Out
+          </Button>
         </Toolbar>
       </AppBar>
       <Grid container spacing={1} style={{ padding: 10 }}>
         {todos.map((todo) => {
+          console.log(todos);
           return (
             <Grid item xs={3}>
               <List

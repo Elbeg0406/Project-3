@@ -47,12 +47,12 @@ const AddListModal = (props: Props) => {
   };
 
   const [item, setItem] = useState("");
-  const [date_only, setDate] = useState("");
+  const [date, setDate] = useState("");
   const [password, setPassword] = useState("");
   const addItem = async () => {
     const resp = await ToDoAPI.addOne({
       item,
-      date_only,
+      date,
       password,
     });
 
@@ -86,7 +86,7 @@ const AddListModal = (props: Props) => {
         className={classes.addBtn}
         onClick={addItem}
       >
-        Add new List
+        Add New List
       </Button>
     </div>
   );

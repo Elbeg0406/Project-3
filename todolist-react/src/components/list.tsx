@@ -29,7 +29,7 @@ const List = ({ data, onToDoDelete, onToDoUpdate }: Props) => {
           {data.item}
         </Typography>
         <Typography variant="body2" component="p" color="textSecondary">
-          {data.date_only}
+          {data.date}
         </Typography>
       </CardContent>
       <CardActions>

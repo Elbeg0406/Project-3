@@ -1,5 +1,5 @@
 export interface UpdateListDto {
   item?: string;
-  date_only: string;
+  date: string;
   password: string;
 }

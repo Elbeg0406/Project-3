@@ -44,12 +44,12 @@ const EditListModal = (props: Props) => {
   const classes = useStyles();
 
   const [item, setItem] = useState("");
-  const [date_only, setDate] = useState("");
+  const [date, setDate] = useState("");
   const [password, setPassword] = useState("");
 
   useEffect(() => {
     if (props.data) {
-      setDate(props.data.date_only);
+      setDate(props.data.date);
       setItem(props.data.item);
       setPassword(props.data.password);
     }
@@ -59,7 +59,7 @@ const EditListModal = (props: Props) => {
     if (props.data) {
       const resp = await ToDoAPI.updateOne(props.data.id, {
         item,
-        date_only,
+        date,
         password,
       });
       props.onListUpdated(resp);
@@ -73,7 +73,7 @@ const EditListModal = (props: Props) => {
         variant="filled"
         className={classes.textField}
         onChange={(e) => setDate(e.target.value)}
-        value={date_only}
+        value={date}
       />
       <TextField
         variant="filled"
