@@ -8,7 +8,6 @@ import { ToDoDto } from './dto/todo.dto';
 import { UpdateToDoDto } from './dto/update-todo.dto';
 import { UserDto } from './dto/user.dto';
 import { ToDo, LoginUser } from './todo.entity';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class ToDoService {

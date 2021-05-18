@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CreateToDoDto } from './dto/create-todo.dto';
 import { ToDoController } from './todo.controller';
-import { ToDo } from './todo.entity';
+import { LoginUser, ToDo } from './todo.entity';
 import { ToDoService } from './todo.service';
 
 describe('ToDoController', () => {
@@ -13,7 +13,7 @@ describe('ToDoController', () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        TypeOrmModule.forFeature([ToDo]),
+        TypeOrmModule.forFeature([ToDo, LoginUser]),
         TypeOrmModule.forRoot({
           type: 'mysql',
           host: 'localhost',
@@ -37,9 +37,9 @@ describe('ToDoController', () => {
   describe('CREATE', () => {
     it('calls the repo with correct parameters', async () => {
       const data: CreateToDoDto = {
-        item: '',
-        date: new Date('2021-05-01'),
-        password: 'Ab99',
+        item: 'Unit testing',
+        date: new Date('2021-05-18'),
+        password: 'Ab99175185@',
       };
 
       const result = await todoController.createOne(data);
